@@ -485,7 +485,9 @@ CGRect IASKCGRectSwap(CGRect rect);
 	} else if ([identifier isEqualToString:kIASKMailComposeSpecifier]) {
 		cell = [[IASKPSTitleValueSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-	} else {
+	} else if([identifier isEqualToString:kIASKFontSelectorSpecifier]) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    } else {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 	}
 	//cell.textLabel.minimumFontSize = kIASKMinimumFontSize;
@@ -592,7 +594,12 @@ CGRect IASKCGRectSwap(CGRect rect);
 	} else if ([specifier.type isEqualToString:kIASKButtonSpecifier]) {
 		NSString *value = [self.settingsStore objectForKey:specifier.key];
 		cell.textLabel.text = [value isKindOfClass:[NSString class]] ? [self.settingsReader titleForStringId:value] : specifier.title;
-	} else {
+	} else if([specifier.type isEqualToString:kIASKFontSelectorSpecifier]) {
+        cell.textLabel.text = specifier.title;
+        
+        NSString *textValue = [self.settingsStore objectForKey:specifier.key] != nil ? [self.settingsStore objectForKey:specifier.key] : specifier.defaultStringValue;
+        cell.detailTextLabel.text = textValue;
+    } else {
 		cell.textLabel.text = specifier.title;
 	}
     
@@ -793,7 +800,11 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 	} else if ([[specifier type] isEqualToString:kIASKCustomViewSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:tableView:didSelectCustomViewSpecifier:)]) {
         [self.delegate settingsViewController:self tableView:tableView didSelectCustomViewSpecifier:specifier];
-    } else {
+    } else if ([[specifier type] isEqualToString:kIASKFontSelectorSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:didSelectFontSelector:)]) {
+        [self.delegate settingsViewController:self didSelectFontSelector:specifier];
+    }
+    
+    else {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 }
