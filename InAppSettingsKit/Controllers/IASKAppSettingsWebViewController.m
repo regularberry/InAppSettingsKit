@@ -133,20 +133,9 @@
 		}
 		
 		[mailViewController setToRecipients:toRecipients];
-    
-#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
-#pragma message "Now that we're iOS5 and up, remove this workaround"
-#endif
-    if([self respondsToSelector:@selector(presentViewController:animated:completion:)]) {
         [self presentViewController:mailViewController
                            animated:YES
                          completion:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self presentModalViewController:mailViewController animated:YES];
-#pragma clang diagnostic pop
-    }
 		[mailViewController release];
 		return NO;
 	}
@@ -160,19 +149,8 @@
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
-#pragma message "Now that we're iOS5 and up, remove this workaround"
-#endif
-    if([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
         [self dismissViewControllerAnimated:YES
                                  completion:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self dismissModalViewControllerAnimated:YES];
-#pragma clang diagnostic pop
-
-    }
 }
 
 
