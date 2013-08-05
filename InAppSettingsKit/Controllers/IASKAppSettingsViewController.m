@@ -435,7 +435,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 	}
 	NSString *title;
 	if ((title = [self tableView:tableView titleForHeaderInSection:section])) {
-		CGRect rect = [title boundingRectWithSize:CGSizeMake(tableView.frame.size.width - 2*kIASKHorizontalPaddingGroupTitles, INFINITY) options:nil attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]]} context:nil];
+		CGRect rect = [title boundingRectWithSize:CGSizeMake(tableView.frame.size.width - 2*kIASKHorizontalPaddingGroupTitles, INFINITY) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]]} context:nil];
 		return rect.size.height+kIASKVerticalPaddingGroupTitles;
 	}
 	return 0;
