@@ -248,12 +248,20 @@
 
 - (UIImage *)cellImage
 {
-    return [UIImage imageNamed:[_specifierDict objectForKey:kIASKCellImage]];
+    NSString *imgName = [_specifierDict objectForKey:kIASKCellImage];
+    if(imgName != nil) {
+        return [UIImage imageNamed:imgName];
+    }
+    return nil;
 }
 
 - (UIImage *)highlightedCellImage
 {
-    return [UIImage imageNamed:[[_specifierDict objectForKey:kIASKCellImage ] stringByAppendingString:@"Highlighted"]];
+    NSString *imgName = [_specifierDict objectForKey:kIASKCellImage];
+    if(imgName != nil) {
+        return [UIImage imageNamed:[imgName stringByAppendingString:@"Highlighted"]];
+    }
+    return nil;
 }
 
 - (BOOL)adjustsFontSizeToFitWidth {
