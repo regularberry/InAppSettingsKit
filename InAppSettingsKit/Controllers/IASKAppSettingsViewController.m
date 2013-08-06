@@ -800,8 +800,12 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 	} else if ([[specifier type] isEqualToString:kIASKCustomViewSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:tableView:didSelectCustomViewSpecifier:)]) {
         [self.delegate settingsViewController:self tableView:tableView didSelectCustomViewSpecifier:specifier];
-    } else if ([[specifier type] isEqualToString:kIASKFontSelectorSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:didSelectFontSelector:)]) {
-        [self.delegate settingsViewController:self didSelectFontSelector:specifier];
+    } else if ([[specifier type] isEqualToString:kIASKFontSelectorSpecifier]) {
+        
+        CMFontSelectTableViewController *fontSelector = [[CMFontSelectTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        fontSelector.delegate = self;
+        fontSelector.specifier = specifier;
+        [self.navigationController pushViewController:fontSelector animated:YES];
     }
     
     else {
@@ -887,6 +891,15 @@ static NSDictionary *oldUserDefaults = nil;
 - (void)reload {
 	// wait 0.5 sec until UI is available after applicationWillEnterForeground
 	[self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
+}
+
+#pragma mark CMFontSelectTableViewControllerDelegate
+
+- (void)fontSelectTableViewController:(CMFontSelectTableViewController *)fontSelectTableViewController didSelectFont:(UIFont *)selectedFont
+{
+    IASKSpecifier *specifier = fontSelectTableViewController.specifier;
+    [[NSUserDefaults standardUserDefaults] setObject:selectedFont.fontName forKey:[specifier key]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark CGRect Utility function

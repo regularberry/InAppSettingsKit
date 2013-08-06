@@ -20,6 +20,7 @@
 #import "IASKSettingsStore.h"
 #import "IASKViewController.h"
 #import "IASKSpecifier.h"
+#import "CMFontSelectTableViewController.h"
 
 @class IASKSettingsReader;
 @class IASKAppSettingsViewController;
@@ -60,7 +61,7 @@
 @end
 
 
-@interface IASKAppSettingsViewController : UITableViewController <IASKViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
+@interface IASKAppSettingsViewController : UITableViewController <IASKViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate, CMFontSelectTableViewControllerDelegate> {
     id<IASKSettingsDelegate>  _delegate;
     
     NSMutableArray          *_viewList;
